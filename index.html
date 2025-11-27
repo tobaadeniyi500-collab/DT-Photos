@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DT Photos | Photography Services</title>
+  <style>
+    /* ---------- RESET ---------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: #f5f5f7;
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ---------- LAYOUT ---------- */
+    .container {
+      width: 90%;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(20px);
+      background: rgba(245, 245, 247, 0.9);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+
+    .logo span {
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: #9ca3af;
+      margin-left: 0.35rem;
+      font-size: 0.7rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.7rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 0.15rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1.5px;
+      background: #111827;
+      transition: width 0.18s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      padding-bottom: 4rem;
+    }
+
+    section {
+      padding: 4rem 0;
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid #d4d4d8;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: #ffffff;
+      color: #111827;
+      transition: transform 0.15s ease, box-shadow 0.15s ease,
+        border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .btn-primary {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+      border-color: #111827;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.6fr);
+      align-items: center;
+      gap: 3rem;
+      padding-top: 2.5rem;
+    }
+
+    .hero-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9ca3af;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.3rem, 4vw, 3.1rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-title span {
+      border-bottom: 2px solid #111827;
+      padding-bottom: 0.1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: #4b5563;
+      max-width: 32rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-note {
+      font-size: 0.82rem;
+      color: #6b7280;
+    }
+
+    .hero-media {
+      border-radius: 1.8rem;
+      background: #ffffff;
+      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+    }
+
+    .hero-frame {
+      border-radius: 1.4rem;
+      border: 1px dashed #d4d4d8;
+      padding: 1.25rem;
+      background: linear-gradient(135deg, #ffffff, #f3f4f6);
+    }
+
+    .hero-photo-placeholder {
+      border-radius: 1.2rem;
+      border: 1px solid #e5e7eb;
+      height: 220px;
+      background:
+        linear-gradient(135deg, rgba(209, 213, 219, 0.8), rgba(243, 244, 246, 1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #4b5563;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.1rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 1rem;
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* ---------- SECTION HEADERS ---------- */
+    .section-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #9ca3af;
+      margin-bottom: 0.45rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.7rem;
+    }
+
+    .section-description {
+      font-size: 0.96rem;
+      color: #4b5563;
+      max-width: 40rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ---------- ABOUT ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 2fr);
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .about-text p + p {
+      margin-top: 0.8rem;
+    }
+
+    .pill-row {
+      margin-top: 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill {
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      font-size: 0.75rem;
+      color: #4b5563;
+      background: #ffffff;
+    }
+
+    .about-card {
+      padding: 1.3rem;
+      border-radius: 1.2rem;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+
+    .about-card h3 {
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .about-card ul {
+      list-style: none;
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .about-card li + li {
+      margin-top: 0.35rem;
+    }
+
+    /* ---------- SERVICES ---------- */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .service-card {
+      border-radius: 1.1rem;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 1.4rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease,
+        border-color 0.15s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+      border-color: #111827;
+    }
+
+    .service-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .service-desc {
+      font-size: 0.88rem;
+      color: #4b5563;
+    }
+
+    .service-meta {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    /* ---------- PORTFOLIO ---------- */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .portfolio-item {
+      border-radius: 1.1rem;
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+
+    .portfolio-thumb {
+      height: 160px;
+      background: radial-gradient(circle at top, #e5e7eb, #f9fafb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+
+    .portfolio-caption {
+      padding: 0.9rem 1rem 1rem;
+      font-size: 0.88rem;
+      color: #4b5563;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    .portfolio-caption span {
+      display: block;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 0.2rem;
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 2fr);
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    label {
+      font-size: 0.82rem;
+      margin-bottom: 0.2rem;
+      display: block;
+      color: #374151;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      border-radius: 0.8rem;
+      border: 1px solid #d4d4d8;
+      background: #ffffff;
+      color: #111827;
+      font: inherit;
+      resize: vertical;
+      min-height: 42px;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #111827;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
+    }
+
+    textarea {
+      min-height: 120px;
+    }
+
+    .contact-details {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .contact-details p + p {
+      margin-top: 0.7rem;
+    }
+
+    .contact-list {
+      margin-top: 1rem;
+      font-size: 0.88rem;
+    }
+
+    .contact-list div + div {
+      margin-top: 0.35rem;
+    }
+
+    .label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9ca3af;
+    }
+
+    .social-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .social-link {
+      font-size: 0.82rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      color: #374151;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      border-top: 1px solid #e5e7eb;
+      padding: 1.4rem 0 2rem;
+      font-size: 0.78rem;
+      color: #9ca3af;
+      background: #f9fafb;
+    }
+
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .hero,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 2rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+
+      section {
+        padding: 3rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== HEADER / NAVBAR ===== -->
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">
+          DT PHOTOS <span>PHOTOGRAPHY</span>
+        </div>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="container hero" id="top">
+      <div>
+        <p class="hero-label">DT Photos</p>
+        <h1 class="hero-title">
+          Clean, timeless photography for your <span>real moments</span>.
+        </h1>
+        <p class="hero-subtitle">
+          DT Photos is a photography brand focused on natural, story-driven
+          images. From portraits to events, we capture the small details and big
+          emotions with a calm, professional approach.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#contact">
+            <button class="btn btn-primary">Book a session</button>
+          </a>
+          <a href="#portfolio">
+            <button class="btn">View portfolio</button>
+          </a>
+        </div>
+
+        <p class="hero-note">
+          Available for portraits, events, and creative shoots in Mississauga and the GTA.
+        </p>
+      </div>
+
+      <aside class="hero-media">
+        <div class="hero-frame">
+          <div class="hero-photo-placeholder">
+            PORTFOLIO IMAGE HERE
+          </div>
+          <div class="hero-meta">
+            <span><span class="dot"></span> Accepting new bookings</span>
+            <span>📍 Mississauga, Canada</span>
+            <span>📧 Tobaadeniyi500@gmail.com</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+      <div class="container">
+        <p class="section-label">About</p>
+        <h2 class="section-title">The eye behind DT Photos</h2>
+        <p class="section-description">
+          Replace this with your real story. Share who you are, how you got into
+          photography, and what makes your work different. Keep it simple,
+          honest, and focused on how you make clients feel comfortable.
+        </p>
+
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              You might mention your style (natural light, candid, editorial,
+              cinematic), the types of shoots you enjoy most, and what clients
+              can expect when they work with you.
+            </p>
+            <p>
+              This is also a good place to talk about how you prepare for a
+              shoot, how you help clients pose, and how you deliver final images
+              (online gallery, prints, etc.).
+            </p>
+
+            <div class="pill-row">
+              <span class="pill">Portraits</span>
+              <span class="pill">Lifestyle</span>
+              <span class="pill">Events</span>
+              <span class="pill">Creative Shoots</span>
+            </div>
+          </div>
+
+          <aside class="about-card">
+            <h3>At a glance</h3>
+            <ul>
+              <li>• Calm, friendly, and client-focused approach</li>
+              <li>• Clean, minimal editing style that feels timeless</li>
+              <li>• Flexible packages for students, families, and brands</li>
+              <li>• Reliable communication before and after your session</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section id="services">
+      <div class="container">
+        <p class="section-label">Services</p>
+        <h2 class="section-title">What DT Photos offers</h2>
+        <p class="section-description">
+          Update the descriptions and starting prices to match your actual
+          business. You can keep it simple at first and refine your packages
+          as you grow.
+        </p>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <h3 class="service-title">Portrait Sessions</h3>
+            <p class="service-desc">
+              Individual portraits, headshots, graduation photos, and creative
+              shoots in outdoor or indoor locations.
+            </p>
+            <p class="service-meta">
+              • 1–2 hour session<br />
+              • Curated edited images in an online gallery
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3 class="service-title">Events & Celebrations</h3>
+            <p class="service-desc">
+              Coverage for birthdays, small gatherings, and special events,
+              focusing on real, candid moments.
+            </p>
+            <p class="service-meta">
+              • Flexible hourly coverage<br />
+              • Highlights and detail shots included
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3 class="service-title">Couples & Friends</h3>
+            <p class="service-desc">
+              Sessions for couples, best friends, and small groups who want
+              natural photos that feel like them.
+            </p>
+            <p class="service-meta">
+              • Location planning support<br />
+              • Posing guidance so you’re never awkward
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3 class="service-title">Brand & Content Shoots</h3>
+            <p class="service-desc">
+              Clean, minimal visuals for creators and small businesses who need
+              consistent content for social media.
+            </p>
+            <p class="service-meta">
+              • Product & lifestyle images<br />
+              • Optimized for Instagram and web
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PORTFOLIO ===== -->
+    <section id="portfolio">
+      <div class="container">
+        <p class="section-label">Portfolio</p>
+        <h2 class="section-title">Selected work</h2>
+        <p class="section-description">
+          When you’re ready, replace these placeholders with real images.
+          You can link each item to a full gallery on Google Drive, Pixieset,
+          or your preferred platform.
+        </p>
+
+        <div class="portfolio-grid">
+          <article class="portfolio-item">
+            <div class="portfolio-thumb">
+              PORTRAIT SET
+            </div>
+            <div class="portfolio-caption">
+              Natural light portraits with a clean, minimal editing style.
+              <span>Portraits · Outdoor</span>
+            </div>
+          </article>
+
+          <article class="portfolio-item">
+            <div class="portfolio-thumb">
+              EVENT SERIES
+            </div>
+            <div class="portfolio-caption">
+              Storytelling coverage of a small celebration, focusing on candid moments.
+              <span>Events · Documentary</span>
+            </div>
+          </article>
+
+          <article class="portfolio-item">
+            <div class="portfolio-thumb">
+              COUPLES SESSION
+            </div>
+            <div class="portfolio-caption">
+              A relaxed couples shoot with simple posing and genuine emotion.
+              <span>Couples · Lifestyle</span>
+            </div>
+          </article>
+
+          <article class="portfolio-item">
+            <div class="portfolio-thumb">
+              BRAND LOOKBOOK
+            </div>
+            <div class="portfolio-caption">
+              Clean visuals for a small brand, shot for social media and web.
+              <span>Branding · Content</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+      <div class="container">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Book with DT Photos</h2>
+        <p class="section-description">
+          Share a bit about the session you’re looking for — portrait, event,
+          couple, or something different — and we’ll get back to you with
+          details and availability.
+        </p>
+
+        <div class="contact-grid">
+          <form onsubmit="handleSubmit(event)">
+            <div>
+              <label for="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                placeholder="Your full name"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="type">Type of shoot</label>
+              <input
+                id="type"
+                name="type"
+                placeholder="Portrait, event, couple, brand, etc."
+                required
+              />
+            </div>
+
+            <div>
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Tell me about your idea, preferred dates, and location."
+                required
+              ></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+              Send inquiry
+            </button>
+
+            <p id="form-status" style="font-size: 0.78rem; margin-top: 0.5rem; color:#6b7280;"></p>
+          </form>
+
+          <div class="contact-details">
+            <p>
+              You can also reach out directly if you prefer:
+            </p>
+
+            <div class="contact-list">
+              <div>
+                <div class="label">Email</div>
+                <div>Tobaadeniyi500@gmail.com</div>
+              </div>
+              <div>
+                <div class="label">Location</div>
+                <div>Mississauga, Canada</div>
+              </div>
+            </div>
+
+            <p style="margin-top:1rem;">
+              For faster replies, include your ideal date, time, and location
+              in your first message.
+            </p>
+
+            <div class="social-row">
+              <a class="social-link" href="https://instagram.com/dtphotos57" target="_blank">@dtphotos57</a>
+              <a class="social-link" href="#" target="_blank">TikTok</a>
+              <a class="social-link" href="mailto:Tobaadeniyi500@gmail.com" target="_blank">Email link</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <span>© <span id="year"></span> DT Photos. All rights reserved.</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- ===== SIMPLE JS ===== -->
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // Simple fake form handler (front-end only)
+    function handleSubmit(event) {
+      event.preventDefault();
+      const status = document.getElementById("form-status");
+      status.textContent =
+        "Thanks for your inquiry! This demo form doesn’t send yet — please email or DM @dtphotos57 on Instagram to confirm your booking.";
+    }
+  </script>
+</body>
+</html>
